@@ -2,10 +2,13 @@ package controllers
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/YasuhiroOsajima/go-auth-api/internal/model"
 	"github.com/YasuhiroOsajima/go-auth-api/internal/usecase"
 )
+
+var domain = os.Getenv("WEB_SERVER")
 
 // Input
 type UserInput struct {
@@ -23,13 +26,14 @@ type DataResult struct {
 }
 
 type TokenResult struct {
-	Token string `json:"token"`
+	Message string `json:"message"`
 }
 
 type ErrorResult struct {
 	Error string `json:"error"`
 }
 
+// Controller
 type AuthController struct {
 	authInteractor *usecase.AuthInteractor
 	userInteractor *usecase.UserInteractor
@@ -62,7 +66,7 @@ func (c *AuthController) Register(ctx Context) {
 	ctx.JSON(http.StatusOK, DataResult{Data: savedUser.PrepareOutput()})
 }
 
-func (c *AuthController) GetToken(ctx Context) {
+func (c *AuthController) GetToken(ctx Context, tokenCookieName string) {
 	var input UserInput
 
 	if err := ctx.ShouldBindJSON(&input); err != nil {
@@ -82,11 +86,12 @@ func (c *AuthController) GetToken(ctx Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, TokenResult{Token: token})
+	ctx.SetCookie(tokenCookieName, token, 3600, "/", domain, false, true)
+	ctx.JSON(http.StatusOK, TokenResult{Message: "Token was generated"})
 }
 
-func (c *AuthController) GetUserInfo(ctx Context, bearToken string) {
-	authenticatedUser, err := c.authInteractor.GetUserInfoByToken(bearToken)
+func (c *AuthController) GetUserInfo(ctx Context, token string) {
+	authenticatedUser, err := c.authInteractor.GetUserInfoByToken(token)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, ErrorResult{Error: err.Error()})
 		return
@@ -95,7 +100,7 @@ func (c *AuthController) GetUserInfo(ctx Context, bearToken string) {
 	ctx.JSON(http.StatusOK, DataResult{Data: authenticatedUser.PrepareOutput()})
 }
 
-func (c *AuthController) Enable(ctx Context, bearToken string) {
+func (c *AuthController) Enable(ctx Context) {
 	var input UserNameInput
 
 	if err := ctx.ShouldBindJSON(&input); err != nil {
@@ -124,7 +129,7 @@ func (c *AuthController) Enable(ctx Context, bearToken string) {
 	ctx.JSON(http.StatusOK, DataResult{Data: enabledUser.PrepareOutput()})
 }
 
-func (c *AuthController) Disable(ctx Context, bearToken string) {
+func (c *AuthController) Disable(ctx Context) {
 	var input UserNameInput
 
 	if err := ctx.ShouldBindJSON(&input); err != nil {

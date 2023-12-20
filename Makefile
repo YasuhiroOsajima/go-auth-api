@@ -19,14 +19,6 @@ start:
 stop:
 	docker-compose stop && docker-compose rm -f
 
-.PHONY: start_web
-start_web:
-	cd webserver && docker-compose up -d
-
-.PHONY: stop_web
-stop_web:
-	cd webserver && docker-compose stop && docker-compose rm -f
-
 .PHONY: start_auth
 start_auth: build
 	./go-auth-api

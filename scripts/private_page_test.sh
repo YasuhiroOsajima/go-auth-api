@@ -1,7 +1,15 @@
 #!/bin/sh
 
-SERVER="127.0.0.1:9999"
+SERVER="192.168.33.13:9999"
+WEB_SERVER="192.168.33.13"
+COOKIE_FILE="/tmp/$(date +'%Y%m%d%H%M%S').cookie"
 
-TOKEN=$(curl --silent -X POST http://${SERVER}/api/login --data '{"username": "test", "password": "passwd"}' | jq -rc .token)
+curl -c "${COOKIE_FILE}" --silent -X POST http://${SERVER}/api/login --data '{"username": "test", "password": "passwd"}'
+echo ""
+cat "${COOKIE_FILE}"
+echo ""
 
-curl -v -H "Authorization: Bearer ${TOKEN}" http://127.0.0.1/private/index.html
+curl -v -b "${COOKIE_FILE}" http://${WEB_SERVER}/private/index.html
+echo ""
+
+rm -f "${COOKIE_FILE}"

@@ -1,8 +1,12 @@
 #!/bin/sh
 
-SERVER="127.0.0.1:9999"
+SERVER="192.168.33.13:9999"
+COOKIE_FILE="/tmp/$(date +'%Y%m%d%H%M%S').cookie"
 
-TOKEN=$(curl --silent -X POST http://${SERVER}/api/login --data '{"username": "test", "password": "passwd"}' | jq -rc .token)
+curl -c "${COOKIE_FILE}" --silent -X POST http://${SERVER}/api/login --data '{"username": "test", "password": "passwd"}'
+echo ""
+cat "${COOKIE_FILE}"
+echo ""
 
 echo "NG patter test:"
 curl -v http://${SERVER}/api/admin/user
@@ -10,5 +14,7 @@ echo ""
 
 echo ""
 echo "OK pattern test:"
-curl -v http://${SERVER}/api/admin/user -H "Authorization: Bearer ${TOKEN}"
+curl -v http://${SERVER}/api/admin/user -b "${COOKIE_FILE}"
 echo ""
+
+rm -f "${COOKIE_FILE}"

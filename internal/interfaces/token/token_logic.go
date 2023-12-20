@@ -12,6 +12,6 @@ func (t *TokenLogic) GenerateToken(userId int) (string, error) {
 	return t.token.GenerateToken(userId)
 }
 
-func (t *TokenLogic) ExtractUserId(bearToken string) (int, error) {
-	return t.token.ExtractUserId(bearToken)
+func (t *TokenLogic) ExtractUserId(token string) (int, error) {
+	return t.token.ExtractUserId(token)
 }

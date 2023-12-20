@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -32,15 +31,6 @@ func (t *Token) GenerateToken(id int) (string, error) {
 	return token.SignedString([]byte(os.Getenv("API_SECRET")))
 }
 
-func (t *Token) extractTokenString(bearToken string) string {
-	strArr := strings.Split(bearToken, " ")
-	if len(strArr) == 2 {
-		return strArr[1]
-	}
-
-	return ""
-}
-
 func (t *Token) parseTokenAndCheckExpired(tokenString string) (*jwt.Token, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -56,9 +46,7 @@ func (t *Token) parseTokenAndCheckExpired(tokenString string) (*jwt.Token, error
 	return token, nil
 }
 
-func (t *Token) ExtractUserId(bearToken string) (int, error) {
-	tokenString := t.extractTokenString(bearToken)
-
+func (t *Token) ExtractUserId(tokenString string) (int, error) {
 	token, err := t.parseTokenAndCheckExpired(tokenString)
 	if err != nil {
 		return -1, err

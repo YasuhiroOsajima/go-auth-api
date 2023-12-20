@@ -34,8 +34,8 @@ func (i *AuthInteractor) GenerateToken(user *model.User) (string, error) {
 	return token, nil
 }
 
-func (i *AuthInteractor) GetUserInfoByToken(bearToken string) (*model.User, error) {
-	userId, err := i.token.ExtractUserId(bearToken)
+func (i *AuthInteractor) GetUserInfoByToken(token string) (*model.User, error) {
+	userId, err := i.token.ExtractUserId(token)
 	if err != nil {
 		return nil, err
 	}
