@@ -22,6 +22,7 @@ func NewRouter() *Router {
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			os.Getenv("WEB_SERVER_ORIGIN"),
+			os.Getenv("WEB_SERVER_ORIGIN_LOCAL"),
 		},
 		AllowMethods: []string{
 			"POST",
