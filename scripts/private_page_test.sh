@@ -1,7 +1,7 @@
 #!/bin/sh
 
-SERVER="192.168.33.13:9999"
-WEB_SERVER="192.168.33.13"
+SERVER="127.0.0.1:9999"
+WEB_SERVER="127.0.0.1"
 COOKIE_FILE="/tmp/$(date +'%Y%m%d%H%M%S').cookie"
 
 curl -c "${COOKIE_FILE}" --silent -X POST http://${SERVER}/api/login --data '{"username": "test", "password": "passwd"}'

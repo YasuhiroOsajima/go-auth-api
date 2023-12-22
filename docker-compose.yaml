@@ -14,8 +14,8 @@ services:
       DB_PORT: 3306
       TOKEN_HOUR_LIFESPAN: 1
       API_SECRET: D990D249-BD92-41C2-A0CC-FEFD2901D1AB
-      WEB_SERVER: "192.168.33.13"
-      WEB_SERVER_ORIGIN: "http://192.168.33.13"
+      WEB_SERVER: "127.0.0.1"
+      WEB_SERVER_ORIGIN: "http://127.0.0.1"
     depends_on:
       dbserver:
         condition: service_healthy

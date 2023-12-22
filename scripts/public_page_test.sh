@@ -1,6 +1,6 @@
 #!/bin/sh
 
-WEB_SERVER="192.168.33.13"
+WEB_SERVER="127.0.0.1"
 
 echo "Access public page patter test:"
 curl -v http://${WEB_SERVER}/login/index.html

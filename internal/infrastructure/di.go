@@ -18,10 +18,6 @@ var userInteractor *usecase.UserInteractor
 var authCtrl *controllers.AuthController
 
 func init() {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	panic("Error loading .env file")
-	// }
 	infDb.ConnectDataBase()
 
 	orm = infDb.NewOrm()
