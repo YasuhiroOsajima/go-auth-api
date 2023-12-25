@@ -90,6 +90,11 @@ func (c *AuthController) GetToken(ctx Context, tokenCookieName string) {
 	ctx.JSON(http.StatusOK, TokenResult{Message: "Token was generated"})
 }
 
+func (c *AuthController) UnSetToken(ctx Context, tokenCookieName string) {
+	ctx.SetCookie(tokenCookieName, "", 3600, "/", domain, false, true)
+	ctx.JSON(http.StatusOK, TokenResult{Message: "Token was deleted"})
+}
+
 func (c *AuthController) GetUserInfo(ctx Context, token string) {
 	authenticatedUser, err := c.authInteractor.GetUserInfoByToken(token)
 	if err != nil {
