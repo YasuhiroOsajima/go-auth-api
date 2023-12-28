@@ -8,7 +8,7 @@ import (
 	"github.com/YasuhiroOsajima/go-auth-api/internal/usecase"
 )
 
-var domain = os.Getenv("WEB_SERVER")
+var domain = os.Getenv("WEB_SERVER_COOKIE_DOMAIN")
 
 // Input
 type UserInput struct {
