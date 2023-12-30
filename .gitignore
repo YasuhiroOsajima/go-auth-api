@@ -1,4 +1,4 @@
 .idea
 go-auth-api
 webserver/nginx_document/login/
-webserver/nginx_document/private/_next/
+webserver/nginx_document/private/
