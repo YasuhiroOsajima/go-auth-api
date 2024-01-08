@@ -44,7 +44,7 @@ func NewRouter() *Router {
 	public.POST("/login", func(c *gin.Context) { authCtrl.GetToken(c, tokenCookieName) })
 
 	protected := router.Group("/api/admin")
-	protected.Use(IsValidToken())
+	protected.Use(isValidToken())
 
 	protected.POST("/logout", func(c *gin.Context) { authCtrl.UnSetToken(c, tokenCookieName) })
 	protected.GET("/user", func(c *gin.Context) {
@@ -73,7 +73,7 @@ func (r *Router) Run() {
 	}
 }
 
-func IsValidToken() gin.HandlerFunc {
+func isValidToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := c.Cookie(tokenCookieName)
 		if err != nil {
