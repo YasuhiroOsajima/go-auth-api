@@ -31,7 +31,7 @@ func NewRouter() *Router {
 		},
 		AllowHeaders: []string{
 			"Access-Control-Allow-Credentials",
-			"Acess-Control-Allow-Headers",
+			"Access-Control-Allow-Headers",
 			"Content-Type",
 		},
 		AllowCredentials: true,
